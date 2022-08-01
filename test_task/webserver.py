@@ -31,6 +31,10 @@ class WebServer(web.Application):
         self.repository = ShelveDB()
 
     def __init_jinja(self):
+        """
+        Init jinja2 for project
+        :return:
+        """
         aiohttp_jinja2.setup(self,
                              loader=jinja2.FileSystemLoader('test_task/static'))
 

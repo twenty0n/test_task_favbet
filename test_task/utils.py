@@ -17,6 +17,11 @@ class FilterOutData:
 
     @staticmethod
     def __check_data_for_correcting(data: Dict) -> list[Dict]:
+        """
+        Check response for correcting data
+        :param data:
+        :return:
+        """
         if data.get("events", None):
             return data['events']
         else:
@@ -24,6 +29,11 @@ class FilterOutData:
 
     @staticmethod
     def __filter_data(data: list[Dict]) -> list[Result]:
+        """
+        Filtering data by Result dataclass keys
+        :param data:
+        :return:
+        """
         return list(event
                     for event in map(lambda x: Result(**{key: value
                                                          for key, value in x.items()
