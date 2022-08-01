@@ -1,0 +1,6 @@
+db*
+.idea
+.venv
+__pycache__/
+ example.json
+ .gitignore
