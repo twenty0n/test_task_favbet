@@ -1,4 +1,4 @@
-from test_task import Parser, WebServer
+from test_task import WebServer
 
 if __name__ == '__main__':
     w = WebServer()

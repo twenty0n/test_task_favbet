@@ -1,5 +1,4 @@
 import shelve
-import time
 
 from databases.repository import Repository
 from test_task.types import Result
@@ -11,8 +10,7 @@ class ShelveDB(Repository):
     def save(self, data: list[Result]):
         with shelve.open(self.db_name) as db:
             for item in data:
-                key: str = str(time.time())
-                db[key] = item
+                db[item.name] = item
 
     def get(self, *, _filter: str, limit: int, offset: int) -> list[Result]:
         with shelve.open(self.db_name) as db:

@@ -28,7 +28,7 @@ class FilterOutData:
                     for event in map(lambda x: Result(**{key: value
                                                          for key, value in x.items()
                                                          if key in Result.__match_args__}), data)
-                    if '-' in event.name)
+                    if '–' in event.name)
 
     def __new__(cls, *args, **kwargs) -> list[Result]:
         return cls.__filter_data(cls.__check_data_for_correcting(kwargs['data']))

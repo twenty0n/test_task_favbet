@@ -36,10 +36,20 @@ class WebServer(web.Application):
 
     @staticmethod
     async def __run_parser_task(app):
+        """
+        Add parser task to background tasks
+        :param app: application instance
+        :return:
+        """
         app['parser'] = asyncio.create_task(Parser().run())
 
     @staticmethod
     async def __stop_parser_task(app):
+        """
+        Rm parser task before stopping
+        :param app: application instance
+        :return:
+        """
         app['parser'].cancel()
         await app['parser']
 
@@ -62,4 +72,8 @@ class WebServer(web.Application):
                                               {'data': data})
 
     def run(self):
+        """
+        Run webserver
+        :return:
+        """
         web.run_app(self, port=8000)

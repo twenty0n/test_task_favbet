@@ -1,7 +1,6 @@
 import asyncio
 import time
 from concurrent.futures import ThreadPoolExecutor
-from functools import lru_cache
 from typing import Dict
 
 import aiohttp
@@ -18,7 +17,10 @@ from databases.repository import Repository
 class Parser:
     queue: asyncio.Queue[list[Result]] = asyncio.Queue(maxsize=10)
     repository: Repository
-    time_for_repeat_fetch: int = 600  # Seconds
+    time_for_repeat_fetch: int = 60  # Seconds
+
+    def __init__(self):
+        self.__init_repository()
 
     @staticmethod
     async def __handle_response(resp: ClientResponse) -> Dict:
@@ -35,7 +37,6 @@ class Parser:
             err = "Unfounded error with status code %s\nText: %s" % (resp.status, await resp.json())
             raise CustomCodeException(err)
 
-    @lru_cache()
     async def __fetch(self) -> None:
         """
         Create fetch. Put result to queue
@@ -49,7 +50,6 @@ class Parser:
                         data: Dict = await self.__handle_response(resp)
                         data: list[Result] = FilterOutData(data=data)
                         await self.queue.put(data)
-                logger.info(data)
                 await asyncio.sleep(self.time_for_repeat_fetch)
 
             except (CustomCodeException, EventsNotFounded) as e:
@@ -82,7 +82,7 @@ class Parser:
         self.queue.task_done()
         return data
 
-    async def __init_repository(self) -> None:
+    def __init_repository(self) -> None:
         """
         Init repository instance
         :return: None
@@ -91,10 +91,9 @@ class Parser:
 
     async def run(self) -> None:
         """
-        Start initialization instances and creating tasks
+        Start creating tasks
         :return:
         """
-        await self.__init_repository()
         save_task = asyncio.create_task(self.__save())
         fetch_task = asyncio.create_task(self.__fetch())
         tasks = (save_task, fetch_task,)
