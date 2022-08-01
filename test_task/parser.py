@@ -8,10 +8,10 @@ from aiohttp import ClientResponse
 from loguru import logger
 
 from config import URL
-from databases.shelvedb import ShelveDB
+from test_task.databases import ShelveDB
 from .types import Result
 from .utils import *
-from databases.repository import Repository
+from test_task.databases import Repository
 
 
 class Parser:

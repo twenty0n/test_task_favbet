@@ -1,6 +1,6 @@
 import shelve
 
-from databases.repository import Repository
+from test_task.databases.repository import Repository
 from test_task.types import Result
 
 
