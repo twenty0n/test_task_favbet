@@ -3,8 +3,8 @@ import asyncio
 from aiohttp import web
 from aiohttp.web_request import Request
 
-from test_task.databases import Repository
-from test_task.databases import ShelveDB
+from .databases.repository import Repository
+from .databases.shelvedb import ShelveDB
 from test_task import Parser
 
 import aiohttp_jinja2
